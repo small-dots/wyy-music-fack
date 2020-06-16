@@ -1,0 +1,66 @@
+<div class="home">
+  <!--  轮播开始-->
+  <app-wyy-carousel #wyycarousel [activeIndex]="activeIndex" (carouselChange)="carouselChange($event)">
+    <nz-carousel nzAutoPlay nzEffect="fade" (nzBeforeChange)="nzBeforeChange($event)"
+                 [nzDotRender]="wyycarousel.dotRef">
+      <div class="carousel-item" nz-carousel-content *ngFor="let item of banner">
+        <a [href]="item.url" target="_blank" class="item">
+          <img [src]="item.imageUrl">
+        </a>
+      </div>
+    </nz-carousel>
+  </app-wyy-carousel>
+  <!--  轮播结束-->
+
+
+  <div class="main">
+    <div class="wrap">
+      <!--  歌单展示开始-->
+      <div class="left">
+        <div class="sec">
+          <div class="up">
+            <div class="navs">
+              <h2>
+                <i></i>
+                <a href="">热门推荐</a>
+              </h2>
+              <nav *ngFor="let item of hotTags">
+                <a href="">{{item.name}}</a>
+              </nav>
+            </div>
+            <a>
+              更多
+              <i nz-icon type="arrow-right" nzTheme="outline"></i>
+            </a>
+          </div>
+          <div class="down">
+            <div class="down-wrap">
+              <app-song-list-single *ngFor=" let item of songSheetList" class="sheet-item"
+                                    [songInfo]="item"></app-song-list-single>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  歌单展示结束-->
+
+      <!--      右边的登录面板和入驻歌手-->
+      <div class="right">
+        <app-member-card></app-member-card>
+        <div class="settled-singer">
+          <div class="tit"><b>入驻歌手</b></div>
+          <div class="list">
+            <div class="card" *ngFor="let item of singsList">
+              <div class="pic">
+                <img [src]="item.picUrl" [alt]="item.name">
+              </div>
+              <div class="txt">
+                <span class="ellipsis">{{item.name}}</span>
+                <span>专辑数量：{{item.albumSize}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
