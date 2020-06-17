@@ -1,0 +1,58 @@
+import {Inject, Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {API_CONFIG} from './services.module';
+import {observable, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Song, SongUrl} from './date-types/commenTypes';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SongServiceService {
+
+  constructor(
+    private http: HttpClient,
+    @Inject(API_CONFIG) private url: string
+  ) {
+  }
+
+  /**
+   * 根据 歌单下的歌曲的id们，获取他们的播放URL
+   * @param ids 歌单下的歌曲的id们
+   */
+  getSongsUrlById(ids: string): Observable<SongUrl[]> {
+    const params = new HttpParams().set('id', ids);
+    return this.http.get(this.url + 'song/url', {params}).pipe(
+      map((res: { data: SongUrl[] }) => res.data)
+    );
+  }
+
+  /**
+   * 获取歌单下的歌曲数据
+   * @param songs 歌曲数组或者单的的歌曲
+   */
+  getSongList(songs: Song | Song[]): Observable<Song[]> {
+    const arrSongs = Array.isArray(songs) ? songs.slice() : [songs];
+    // 将歌曲列表内的id组成字符串
+    const ids = arrSongs.map(item => item.id).join(',');
+    // 创建一个observable的流，供订阅这个方法的组件获取数据;
+    return Observable.create(observer => {
+      this.getSongsUrlById(ids).subscribe(urls => {
+        observer.next(this.conact(urls, arrSongs));
+      });
+    });
+  }
+
+  // 将urls 拼接 进 歌曲数组
+  conact(urls: SongUrl[], songList: Song[]): Song[] {
+    const result = [];
+    songList.forEach(item => {
+      // tslint:disable-next-line:no-shadowed-variable
+      const url = urls.find(url => url.id === item.id).url;
+      if (url) {
+        result.push({...songList, url});
+      }
+    });
+    return result;
+  }
+}

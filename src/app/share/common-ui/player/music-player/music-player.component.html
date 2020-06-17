@@ -1,0 +1,55 @@
+<!--播放器组件-->
+<div class="m-player">
+  <!--  播放器的锁-->
+  <div class="lock">
+    <div class="left">
+      <li></li>
+    </div>
+  </div>
+  <!--  播放器消失后鼠标移动到下面的横条式显示播放器-->
+  <div class="hand">
+
+  </div>
+  <div class="container">
+    <div class="wrap">
+      <!-- 三个播放器按钮-->
+      <div class="btns">
+        <i class="prev"></i>
+        <i class="toggle"></i>
+        <i class="next"></i>
+      </div>
+      <div class="head">
+        <img src="" alt="">
+        <i class="mask"></i>
+      </div>
+      <div class="play">
+        <div class="words clearfix" [hidden]="true">
+          <p class="ellipsis">歌名</p>
+          <ul class="songs clearfix">
+            <li><a href="">歌手1</a>/</li>
+            <li><a href="">歌手2</a></li>
+          </ul>
+        </div>
+        <div class="bar">
+          <div class="slider-wrap">
+            <div>进度条</div>
+          </div>
+          <span class="time">
+            <em>02:09</em>/04:45
+          </span>
+        </div>
+      </div>
+      <div class="oper">
+        <i class="like" title="收藏"></i>
+        <i class="share" title="分享"></i>
+      </div>
+      <div class="ctrl">
+        <i class="volume" title="音量"></i>
+        <i class="loop" title="循环"></i>
+        <p class="open">
+          <span></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
