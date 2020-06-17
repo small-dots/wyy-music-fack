@@ -1,4 +1,6 @@
 // 轮播图片资源
+import {Observable} from 'rxjs';
+
 export type Banner = {
   target: number, // 图片
   url: string, // 图片地址
@@ -42,3 +44,23 @@ export type SongUrl = {
   id: number;
   url: string; // 歌曲URL
 };
+// DOM样式的类型
+export type StyleType = {
+  left: string | null;
+  width: string | null;
+  bottom: string | null;
+  height: string | null;
+};
+
+// 鼠标或者手势事件的类型
+export type SliderEventType = {
+  start: string;
+  move: string;
+  end: string;
+  filte: (e: Event) => boolean;
+  pluckey: string[];
+  startPlucked$?: Observable<number>;
+  moveResolved$?: Observable<number>;
+  end$?: Observable<Event>;
+};
+export type SliderValue = number | null;

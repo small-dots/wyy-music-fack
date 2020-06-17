@@ -29,18 +29,14 @@ export class SongServiceService {
 
   /**
    * 获取歌单下的歌曲数据
-   * @param songs 歌曲数组或者单的的歌曲
+   * @param songs 歌曲数组或者单的的歌曲 （次数组不包括歌曲的播放URL），只能再次根据歌曲数组中的id获取歌曲的播放URL，通过 conact 拼装在一起
    */
   getSongList(songs: Song | Song[]): Observable<Song[]> {
     const arrSongs = Array.isArray(songs) ? songs.slice() : [songs];
     // 将歌曲列表内的id组成字符串
     const ids = arrSongs.map(item => item.id).join(',');
-    // 创建一个observable的流，供订阅这个方法的组件获取数据;
-    return Observable.create(observer => {
-      this.getSongsUrlById(ids).subscribe(urls => {
-        observer.next(this.conact(urls, arrSongs));
-      });
-    });
+    return this.getSongsUrlById(ids).pipe(map(urls =>
+      this.conact(urls, arrSongs)));
   }
 
   // 将urls 拼接 进 歌曲数组

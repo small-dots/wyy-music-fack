@@ -32,10 +32,14 @@ export class SheetServiceService {
     );
   }
 
+  /**
+   * 根据歌单id。获取歌单下的歌曲数组（次数组已经包括歌曲的播放URL）
+   * @param id 歌单id
+   */
   playSongs(id: number): Observable<Song[]> {
     return this.getSongSheetDetail(id).pipe(
       pluck('tracks'),
-      switchMap(tracks => this.songService.getSongList(tracks))
+      switchMap((tracks: Song[]) => this.songService.getSongList(tracks))
     );
   }
 }

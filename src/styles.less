@@ -1,4 +1,5 @@
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
 @theme: default;
 
 // The prefix to use on all css classes from ant.
@@ -25,9 +26,7 @@
 @primary-2: color(~`colorPalette('@{primary-color}', 2) `); // replace tint(@primary-color, 80%)
 @primary-3: color(~`colorPalette('@{primary-color}', 3) `); // unused
 @primary-4: color(~`colorPalette('@{primary-color}', 4) `); // unused
-@primary-5: color(
-  ~`colorPalette('@{primary-color}', 5) `
-); // color used to control the text color in many active and hover states, replace tint(@primary-color, 20%)
+@primary-5: color(~`colorPalette('@{primary-color}', 5) `); // color used to control the text color in many active and hover states, replace tint(@primary-color, 20%)
 @primary-6: @primary-color; // color used to control the text color of active buttons, don't use, use @primary-color
 @primary-7: color(~`colorPalette('@{primary-color}', 7) `); // replace shade(@primary-color, 5%)
 @primary-8: color(~`colorPalette('@{primary-color}', 8) `); // unused
@@ -365,15 +364,11 @@
 @input-padding-horizontal-base: @input-padding-horizontal;
 @input-padding-horizontal-sm: @control-padding-horizontal-sm - 1px;
 @input-padding-horizontal-lg: @input-padding-horizontal;
-@input-padding-vertical-base: max(
-    round((@input-height-base - @font-size-base * @line-height-base) / 2 * 10) / 10 -
+@input-padding-vertical-base: max(round((@input-height-base - @font-size-base * @line-height-base) / 2 * 10) / 10 -
       @border-width-base,
-  3px
-);
-@input-padding-vertical-sm: max(
-    round((@input-height-sm - @font-size-base * @line-height-base) / 2 * 10) / 10 - @border-width-base,
-  0
-);
+3px);
+@input-padding-vertical-sm: max(round((@input-height-sm - @font-size-base * @line-height-base) / 2 * 10) / 10 - @border-width-base,
+0);
 @input-padding-vertical-lg: ceil((@input-height-lg - @font-size-lg * @line-height-base) / 2 * 10) /
   10 - @border-width-base;
 @input-placeholder-color: hsv(0, 0, 75%);
@@ -894,3 +889,6 @@
 @notification-bg: @component-background;
 
 /* You can add global styles to this file, and also import other style files */
+.margin-buttom-none {
+  margin-bottom: 0;
+}

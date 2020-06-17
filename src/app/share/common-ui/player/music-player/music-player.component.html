@@ -23,16 +23,16 @@
         <i class="mask"></i>
       </div>
       <div class="play">
-        <div class="words clearfix" [hidden]="true">
-          <p class="ellipsis">歌名</p>
-          <ul class="songs clearfix">
+        <div class="words clearfix hide">
+          <p class="ellipsis  margin-buttom-none">歌名</p>
+          <ul class="songs clearfix margin-buttom-none">
             <li><a href="">歌手1</a>/</li>
             <li><a href="">歌手2</a></li>
           </ul>
         </div>
         <div class="bar">
           <div class="slider-wrap">
-            <div>进度条</div>
+            <app-music-slider></app-music-slider>
           </div>
           <span class="time">
             <em>02:09</em>/04:45
