@@ -1,6 +1,6 @@
 <!--单独歌单的样式-->
 <ng-container>
-  <a href="#" class="cover">
+  <a class="cover">
     <img [src]="songInfo.picUrl" [alt]="songInfo.name">
     <div class="bottom">
       <!--播放量-->
@@ -9,7 +9,7 @@
         <span>{{songInfo.playCount|playCount}}</span>
       </div>
       <!--播放的图标-->
-      <div class="icon play"></div>
+      <div class="icon play" (click)="playSheetList(songInfo.id)"></div>
     </div>
   </a>
   <span class="des">{{songInfo.name}}</span>

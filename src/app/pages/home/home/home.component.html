@@ -36,14 +36,15 @@
           <div class="down">
             <div class="down-wrap">
               <app-song-list-single *ngFor=" let item of songSheetList" class="sheet-item"
-                                    [songInfo]="item"></app-song-list-single>
+                                    [songInfo]="item" (onPlay)="playSheetList($event)">
+              </app-song-list-single>
             </div>
           </div>
         </div>
       </div>
       <!--  歌单展示结束-->
 
-      <!--      右边的登录面板和入驻歌手-->
+      <!--右边的登录面板和入驻歌手 开始-->
       <div class="right">
         <app-member-card></app-member-card>
         <div class="settled-singer">
@@ -55,12 +56,13 @@
               </div>
               <div class="txt">
                 <span class="ellipsis">{{item.name}}</span>
-                <span>专辑数量：{{item.albumSize}}</span>
+                <span>专辑数量:{{item.albumSize}}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!--右边的登录面板和入驻歌手 结束-->
     </div>
   </div>
 </div>

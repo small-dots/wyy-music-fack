@@ -5,6 +5,7 @@ import {NzCarouselComponent} from 'ng-zorro-antd';
 import {SingerServiceService} from '../../../services/singer-service.service';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';
+import {SheetServiceService} from '../../../services/sheet-service.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private homeService: HomeServiceService,
     private singerService: SingerServiceService,
+    private songSheetService: SheetServiceService,
     private route: ActivatedRoute
   ) {
   }
@@ -91,6 +93,15 @@ export class HomeComponent implements OnInit {
   getSettleInSingers() {
     this.singerService.getSettleInSingers().subscribe(res => {
       this.singsList = res;
+    });
+  }
+
+  /**
+   * 收集歌单的id
+   */
+  playSheetList(id: number) {
+    this.songSheetService.playSongs(id).subscribe(res => {
+      console.log(res);
     });
   }
 }
