@@ -7,6 +7,7 @@ import {AppRoutingModule} from '../app-routing.module';
 import {ServicesModule} from '../services/services.module';
 import {PagesModule} from '../pages/pages.module';
 import {ShareModule} from '../share/share.module';
+import {AppStoreModule} from '../store/store.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {ShareModule} from '../share/share.module';
     PagesModule,
     ServicesModule,
     ShareModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AppStoreModule
   ],
   exports: [
     ShareModule,
