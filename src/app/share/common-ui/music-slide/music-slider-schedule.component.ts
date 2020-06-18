@@ -20,7 +20,7 @@ export class MusicSliderScheduleComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // 如果进度条的偏移量发生变化，判断是哪个方向发生了变化
-    if (changes['btnLength']) {
+    if (changes.btnLength) {
       // 如果是垂直方向发生了变化，按钮的bottm样式变化
       // 如果是水平方向发生了变化，按钮的left样式变化
       this.style[this.vercital ? 'bottom' : 'left'] = this.btnLength + '%';

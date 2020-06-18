@@ -46,10 +46,10 @@ export type SongUrl = {
 };
 // DOM样式的类型
 export type StyleType = {
-  left: string | null;
-  width: string | null;
-  bottom: string | null;
-  height: string | null;
+  width?: string | null;
+  height?: string | null;
+  left?: string | null;
+  bottom?: string | null;
 };
 
 // 鼠标或者手势事件的类型

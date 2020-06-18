@@ -1,3 +1,6 @@
+/**
+ * 限制结果 返回值在0-1质检
+ */
 export function limitNumberInRange(val: number, min: number, max: number): number {
   return Math.min(Math.max(val, min), max);
 }

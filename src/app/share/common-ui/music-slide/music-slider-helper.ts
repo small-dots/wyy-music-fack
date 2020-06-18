@@ -10,7 +10,6 @@ export function getElementOffset(el: HTMLElement): { top: number; left: number; 
       left: 0
     };
   }
-
   const rect = el.getBoundingClientRect();
   const win = el.ownerDocument.defaultView;
 

@@ -9,6 +9,9 @@ import {Component, OnInit} from '@angular/core';
  * 播放器组件
  */
 export class MusicPlayerComponent implements OnInit {
+  sliderValue = 35; // 实际的进度条
+
+  bufferPercent = 89; // 缓冲的进度条
 
   constructor() {
   }

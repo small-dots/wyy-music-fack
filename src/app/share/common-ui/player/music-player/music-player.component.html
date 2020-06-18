@@ -32,7 +32,7 @@
         </div>
         <div class="bar">
           <div class="slider-wrap">
-            <app-music-slider></app-music-slider>
+            <app-music-slider [(ngModel)]="sliderValue" [bufferOffset]="bufferPercent"></app-music-slider>
           </div>
           <span class="time">
             <em>02:09</em>/04:45
@@ -49,6 +49,9 @@
         <p class="open">
           <span></span>
         </p>
+        <div class="contro-vol">
+          <app-music-slider [vercital]="true"></app-music-slider>
+        </div>
       </div>
     </div>
   </div>
