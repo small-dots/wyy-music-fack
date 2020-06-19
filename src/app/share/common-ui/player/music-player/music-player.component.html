@@ -14,28 +14,31 @@
     <div class="wrap">
       <!-- 三个播放器按钮-->
       <div class="btns">
-        <i class="prev"></i>
-        <i class="toggle"></i>
-        <i class="next"></i>
+        <i class="prev" (click)="prev(currentIndex-1)"></i>
+        <i class="toggle" [class.playing]="playing" (click)="playOrPause()"></i>
+        <i class="next" (click)="next(currentIndex+1)"></i>
       </div>
       <div class="head">
-        <img src="" alt="">
+        <img [src]="picUrl">
         <i class="mask"></i>
       </div>
       <div class="play">
-        <div class="words clearfix hide">
-          <p class="ellipsis  margin-buttom-none">歌名</p>
+        <div class="words clearfix">
+          <p class="ellipsis  margin-buttom-none">{{currentSong?.name}}</p>
           <ul class="songs clearfix margin-buttom-none">
-            <li><a href="">歌手1</a>/</li>
-            <li><a href="">歌手2</a></li>
+            <li *ngFor=" let item of songar;last as isLast">
+              <a href="">{{item?.name}}</a>
+              <span [hidden]="isLast">/</span>
+            </li>
           </ul>
         </div>
         <div class="bar">
           <div class="slider-wrap">
-            <app-music-slider [(ngModel)]="sliderValue" [bufferOffset]="bufferPercent"></app-music-slider>
+            <app-music-slider [(ngModel)]="sliderValue" [bufferOffset]="bufferPercent"
+                              (wyOnAfterChange)="slidePercentChange($event)"></app-music-slider>
           </div>
           <span class="time">
-            <em>02:09</em>/04:45
+            <em>{{currtime|timeFormat}}</em>/{{songtime|timeFormat}}
           </span>
         </div>
       </div>
@@ -55,5 +58,8 @@
       </div>
     </div>
   </div>
-  <audio #audio [src]="currentSong?.url" (canplay)="onCanplay()"></audio>
+  <audio #audio [src]="currentSong?.url"
+         (canplay)="onCanplay()"
+         (timeupdate)="onTimeUpdate($event)"
+  ></audio>
 </div>

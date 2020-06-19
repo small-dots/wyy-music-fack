@@ -134,7 +134,7 @@ export class MusicSliderComponent implements OnInit, OnDestroy, ControlValueAcce
   // 将获取的鼠标的dom值转化为坐标值
   // postion/滑块的总长度===(postion-val)/(最大值-最小值)
   private closetoValue(postion: number): number {
-    console.log('postion', postion); // 打印显示鼠标点击时位置是可以获取的
+    // console.log('postion', postion); // 打印显示鼠标点击时位置是可以获取的
     // 获取滑块总长
     const sliderLength = this.getSliderLength();
 
@@ -193,7 +193,7 @@ export class MusicSliderComponent implements OnInit, OnDestroy, ControlValueAcce
   }
 
   private onDragEnd() {
-    this.wyOnAfterChange.emit(this.value);
+    this.wyOnAfterChange.emit(this.value); // 此处改变歌曲的播放进度不会造成卡顿的情况
     this.toggleDragMoving(false);
     this.cdr.markForCheck();
   }
@@ -258,7 +258,6 @@ export class MusicSliderComponent implements OnInit, OnDestroy, ControlValueAcce
 // 将获取的百分比复制给offset传出去给子组件，更新DOM
   private updateTrackAndHandles() {
     this.offset = this.getValueToOffset(this.value);
-    console.log('3234', this.offset);
     this.cdr.markForCheck();
   }
 

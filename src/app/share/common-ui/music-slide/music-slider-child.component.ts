@@ -23,7 +23,6 @@ export class MusicSliderChildComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('HCLength', this.HCLength);
     if (changes.HCLength) {
       if (this.vercital) { // 垂直方向
         this.style.height = this.HCLength + '%';
