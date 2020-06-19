@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AppStoreModule} from '../../../../store/store.module';
 import {getCurrentIndex, getCurrentSong, getPlayList, getPlayModel, getSongList} from '../../../../store/slector/player.select';
@@ -14,6 +14,8 @@ import {PlayModels} from './playTypes';
  * 播放器组件
  */
 export class MusicPlayerComponent implements OnInit {
+  @ViewChild('audio', {static: true}) private audio: ElementRef;
+  private audioEl: HTMLAudioElement;
   sliderValue = 35; // 实际的进度条
 
   bufferPercent = 89; // 缓冲的进度条
@@ -51,31 +53,38 @@ export class MusicPlayerComponent implements OnInit {
       }
     ];
     // 因为可以要监听五个事件，就写一个数组，然后循环监听就好
-    statusArr.forEach(item => {
-      appStore.pipe(select(item.type)).subscribe(item.callback);
+    statusArr.forEach((item) => {
+      appStore.pipe(select(getCurrentSong)).subscribe(item.callback);
     });
   }
 
 
   ngOnInit(): void {
+    this.audioEl = this.audio.nativeElement;
   }
 
   watchList(list: Song[], type: string) {
     this[type] = list;
-    console.log('list:', list);
   }
 
   watchCurrentIndex(index: number) {
     this.currentIndex = index;
-    console.log('index', index);
   }
 
   watchPlayModel(mode: PlayModels) {
-    console.log(mode);
   }
 
   watchCurrentSong(song: Song) {
     this.currentSong = song;
     console.log('this.currentSong', this.currentSong);
+  }
+
+// 播放器的播事件放（歌曲播放时触发）
+  onCanplay() {
+    this.play();
+  }
+
+  private play() {
+    this.audioEl.play();
   }
 }

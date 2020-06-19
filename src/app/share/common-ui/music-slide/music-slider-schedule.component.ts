@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChan
   selector: 'app-music-slider-schedule',
   template: `
     <div class="wy-slider-handle" [ngStyle]="style"></div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 // 音乐播放器的滑 进度条
 export class MusicSliderScheduleComponent implements OnInit, OnChanges {

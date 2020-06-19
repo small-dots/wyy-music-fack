@@ -5,8 +5,7 @@ import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home/home.component';
 import {ShareModule} from '../../share/share.module';
 import {WyyCarouselComponent} from './components/wyy-carousel/wyy-carousel.component';
-import { MemberCardComponent } from './components/member-card/member-card.component';
-
+import {MemberCardComponent} from './components/member-card/member-card.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,7 @@ import { MemberCardComponent } from './components/member-card/member-card.compon
   imports: [
     CommonModule,
     HomeRoutingModule,
-    ShareModule
+    ShareModule,
   ]
 })
 export class HomeModule {

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+
 // import {ChangeDetectionStrategy} from '@angular/compiler/src/core';
 
 @Component({
@@ -8,14 +9,15 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output,
   // 修改变更检测策略
   // Angualr 默认：当组件发生变化时，会将挂载在他组件树上的子组件或者父组件都重新检测一遍
   // OnPush 作用：只有组件的@Input也就是输入值发生变化时，也会检测整个组件树---提升性能
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class WyyCarouselComponent implements OnInit {
   @Input() activeIndex: any;
   @Output() carouselChange = new EventEmitter<string>();
 
-  @ViewChild('dot') dotRef: TemplateRef<'pre' | 'next'>;
+  // @ViewChild('dot') dotRef: TemplateRef<'pre' | 'next'>;
+  @ViewChild('dot', {static: true}) dotRef: TemplateRef<any>;
 
   constructor() {
   }

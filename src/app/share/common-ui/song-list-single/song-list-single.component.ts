@@ -5,7 +5,7 @@ import {SongSheet} from '../../../services/date-types/commenTypes';
   selector: 'app-song-list-single',
   templateUrl: './song-list-single.component.html',
   styleUrls: ['./song-list-single.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 // 歌单的卡片展示
 export class SongListSingleComponent implements OnInit {

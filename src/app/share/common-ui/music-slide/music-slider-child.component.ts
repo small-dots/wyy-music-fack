@@ -6,7 +6,7 @@ import {StyleType} from '../../../services/date-types/commenTypes';
   template: `
     <div class="wy-slider-track" [class.buffer]="wyBuffer" [ngStyle]="style"></div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 // 音乐播放器的滑块部分
 export class MusicSliderChildComponent implements OnInit, OnChanges {

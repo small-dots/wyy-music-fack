@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MusicPlayerComponent} from './music-player/music-player.component';
 import {MusicSlideModule} from '../music-slide/music-slide.module';
 import {FormsModule} from '@angular/forms';
+import {NgZorroAntdModule} from 'ng-zorro-antd';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {FormsModule} from '@angular/forms';
     imports: [
         CommonModule,
         MusicSlideModule,
-        FormsModule
+        FormsModule,
+        NgZorroAntdModule
     ],
   exports: [
     MusicPlayerComponent
