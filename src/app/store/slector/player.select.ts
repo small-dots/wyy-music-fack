@@ -1,7 +1,5 @@
 import {PlayStatus} from '../reducers/player.reducer';
-import {createAction, createSelector, props} from '@ngrx/store';
-import {Song} from '../../services/date-types/commenTypes';
-import {PlayModels} from '../../share/common-ui/player/music-player/playTypes';
+import {createSelector} from '@ngrx/store';
 // 获取播放状态
 const selectPlayStatus = (state: PlayStatus) => state;
 

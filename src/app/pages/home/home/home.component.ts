@@ -6,6 +6,9 @@ import {SingerServiceService} from '../../../services/singer-service.service';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {SheetServiceService} from '../../../services/sheet-service.service';
+import {Store} from '@ngrx/store';
+import {AppStoreModule} from '../../../store/store.module';
+import {setCurrentIndex, setPlayList, setSongList} from '../../../store/actions/player-actions';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +18,7 @@ import {SheetServiceService} from '../../../services/sheet-service.service';
 export class HomeComponent implements OnInit {
   public banner: Banner[] = []; // 轮播图数组
   public hotTags: HotTags[] = []; // 热门标签数组
-  public songSheetList: SongSheet[] = []; // 热门的歌单数组
+  public songSheetList: SongSheet[]; // 热门的歌单数组
   public activeIndex = 0; // 面板的id
   public singsList: SettleSingers[] = []; // 歌手数据
   @ViewChild(NzCarouselComponent) private carousel: NzCarouselComponent;
@@ -24,7 +27,8 @@ export class HomeComponent implements OnInit {
     private homeService: HomeServiceService,
     private singerService: SingerServiceService,
     private songSheetService: SheetServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store$: Store<AppStoreModule>
   ) {
   }
 
@@ -35,6 +39,7 @@ export class HomeComponent implements OnInit {
           this.banner = banner;
           this.hotTags = hotTags;
           this.songSheetList = songSheetList;
+          console.log('this.songSheetList', this.songSheetList);
           this.singsList = singsList;
         }
       );
@@ -100,8 +105,12 @@ export class HomeComponent implements OnInit {
    * 收集歌单的id
    */
   playSheetList(id: number) {
-    this.songSheetService.playSongs(id).subscribe(res => {
-      console.log(res);
+    console.log('id', id);
+    this.songSheetService.playSongs(id).subscribe(list => {
+      this.store$.dispatch(setSongList({songList: list}));
+      this.store$.dispatch(setPlayList({playList: list}));
+      this.store$.dispatch(setCurrentIndex({currentIndex: 0})); // 默认播放第一首歌曲
+      console.log(list);
     });
   }
 }

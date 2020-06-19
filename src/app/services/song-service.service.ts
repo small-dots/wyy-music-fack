@@ -33,7 +33,7 @@ export class SongServiceService {
    */
   getSongList(songs: Song | Song[]): Observable<Song[]> {
     const arrSongs = Array.isArray(songs) ? songs.slice() : [songs];
-    // 将歌曲列表内的id组成字符串
+    // 将歌曲列表内的,id组成字符串
     const ids = arrSongs.map(item => item.id).join(',');
     return this.getSongsUrlById(ids).pipe(map(urls =>
       this.conact(urls, arrSongs)));
@@ -46,9 +46,21 @@ export class SongServiceService {
       // tslint:disable-next-line:no-shadowed-variable
       const url = urls.find(url => url.id === item.id).url;
       if (url) {
-        result.push({...songList, url});
+        result.push({...item, url});
       }
     });
     return result;
   }
+
+  private generateSongList(songs: Song[], urls: SongUrl[]): Song[] {
+    const result = [];
+    songs.forEach(song => {
+      const url = urls.find(songUrl => songUrl.id === song.id).url;
+      if (url) {
+        result.push({...song, url});
+      }
+    });
+    return result;
+  }
+
 }

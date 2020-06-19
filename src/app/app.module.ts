@@ -6,9 +6,6 @@ import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {CoreModule} from './core/core.module';
 import {ShareModule} from './share/share.module';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 
 registerLocaleData(zh);
 
@@ -19,8 +16,6 @@ registerLocaleData(zh);
   imports: [
     CoreModule,
     ShareModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}],
   bootstrap: [AppComponent]
