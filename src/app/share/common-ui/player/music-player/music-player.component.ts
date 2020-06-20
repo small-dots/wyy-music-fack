@@ -1,10 +1,12 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AppStoreModule} from '../../../../store/store.module';
 import {getCurrentIndex, getCurrentSong, getPlayList, getPlayModel, getSongList} from '../../../../store/slector/player.select';
 import {SettleSingers, Song} from '../../../../services/date-types/commenTypes';
 import {PlayModels} from './playTypes';
 import {setCurrentIndex} from '../../../../store/actions/player-actions';
+import {fromEvent, Subscription} from 'rxjs';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-music-player',
@@ -32,11 +34,15 @@ export class MusicPlayerComponent implements OnInit {
 
   playing = false; // 播放状态--是否正在播放
   songReadOnly = false; // 是否可以播放，默认不能
-
+  vloume: number = 60; // 音量
+  showVolume: boolean = false; // 隐藏音量的滑块
+  selfClick: boolean = false; // 当前点击的时候是音量面板的本身
+  private winClick: Subscription; // 绑定windows的点击事件
 
   constructor(
     // 此处监听下播放事件
-    private store$: Store<AppStoreModule>
+    private store$: Store<AppStoreModule>,
+    @Inject(DOCUMENT) private doc: Document,
   ) {
     // @ts-ignore
     const appStore = this.store$.pipe(select('player'));
@@ -195,6 +201,49 @@ export class MusicPlayerComponent implements OnInit {
 // 监听 当改变滑块时 返回滚动进度条的百分比 0-100
   slidePercentChange(e: number) {
     // 此处改变进度条时会改变歌曲的播放进程，但会造成卡顿的情况，所以在鼠标抬起时改变为好
-    this.audioEl.currentTime = this.songtime * (e / 100);
+    if (this.currentSong) {
+      this.audioEl.currentTime = this.songtime * (e / 100);
+    }
+  }
+
+// 监听 当改变滑块时 播放器的音量也随着变化
+  onVolumeChange(e: number) {
+    this.audioEl.volume = e / 100;
+  }
+
+// 控制音量滑块的显示和隐藏
+  showOrHidenVolume(event: MouseEvent) {
+    event.stopPropagation();
+    this.showHide();
+  }
+
+  showHide() {
+    this.showVolume = !this.showVolume;
+    if (this.showVolume) {
+      // 如果音量的滑块出险了，就绑定全局的windows点击事件;
+      this.bindDocumentClickListener();
+    } else {
+      // 否则解绑
+      this.unBindDocumentClickListener();
+    }
+  }
+
+  private bindDocumentClickListener() {
+    if (!this.winClick) {
+      this.winClick = fromEvent(this.doc, 'click').subscribe(() => {
+        if (!this.selfClick) { // 点击播放器以外的地方
+          this.showVolume = false;
+          this.unBindDocumentClickListener();
+        }
+        this.selfClick = false;
+      });
+    }
+  }
+
+  private unBindDocumentClickListener() {
+    if (this.winClick) {
+      this.winClick.unsubscribe();
+      this.winClick = null;
+    }
   }
 }
