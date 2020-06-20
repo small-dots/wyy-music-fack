@@ -4,9 +4,16 @@ import {AppStoreModule} from '../../../../store/store.module';
 import {getCurrentIndex, getCurrentSong, getPlayList, getPlayModel, getSongList} from '../../../../store/slector/player.select';
 import {SettleSingers, Song} from '../../../../services/date-types/commenTypes';
 import {PlayModels} from './playTypes';
-import {setCurrentIndex} from '../../../../store/actions/player-actions';
+import {setCurrentIndex, setPlayList, setPlayModel} from '../../../../store/actions/player-actions';
 import {fromEvent, Subscription} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
+import {toRandom} from '../../../utils/inArray';
+
+const modeTYpes: PlayModels[] = [
+  {type: 'loop', label: '循环'},
+  {type: 'singleLoop', label: '单曲循环'},
+  {type: 'random', label: '随机'}
+];
 
 @Component({
   selector: 'app-music-player',
@@ -34,10 +41,14 @@ export class MusicPlayerComponent implements OnInit {
 
   playing = false; // 播放状态--是否正在播放
   songReadOnly = false; // 是否可以播放，默认不能
+
   vloume: number = 60; // 音量
   showVolume: boolean = false; // 隐藏音量的滑块
   selfClick: boolean = false; // 当前点击的时候是音量面板的本身
   private winClick: Subscription; // 绑定windows的点击事件
+
+  currentMode: PlayModels; // 播放模式
+  clickCount: number = 0; // 点击播放模式按钮的次数
 
   constructor(
     // 此处监听下播放事件
@@ -88,7 +99,28 @@ export class MusicPlayerComponent implements OnInit {
     this.currentIndex = index;
   }
 
+  /**
+   * 监听到没播放模式的变化，设置新的播放模式和样式
+   * @param mode 播放模式
+   */
   watchPlayModel(mode: PlayModels) {
+    this.currentMode = mode;
+    if (this.songList) {
+      let list = this.songList.slice(); // .slice() 避免出现引用的问题
+      if (mode.type === 'random') { // 随机播放
+        list = toRandom(this.songList);
+        // 切换了播放模式。但是当前播放的歌曲应该还是不变的
+        this.updateCurrentIndex(list, this.currentSong);
+        this.store$.dispatch(setPlayList({playList: list}));
+      } else if (mode.type === 'singleLoop') { // 单曲循环
+
+      }
+    }
+  }
+
+  updateCurrentIndex(list: Song[], song: Song) {
+    const newIndex = list.findIndex(item => item.id === song.id);
+    this.store$.dispatch(setCurrentIndex({currentIndex: newIndex}));
   }
 
   watchCurrentSong(song: Song) {
@@ -244,6 +276,29 @@ export class MusicPlayerComponent implements OnInit {
     if (this.winClick) {
       this.winClick.unsubscribe();
       this.winClick = null;
+    }
+  }
+
+  /**
+   * 改变播放器播放放模式
+   */
+  changePLayMode() {
+    // 每点击一次就改变一次，并且设置新的播放模式，----使得watchPlayModel方法可以监听到播放模式的变化
+    const temp = modeTYpes[++this.clickCount % 3];
+    this.store$.dispatch(setPlayModel({playModel: temp}));
+  }
+
+  /**
+   * 监听 当前播放的歌曲结束时间
+   */
+  onEnd() {
+// 首先将播放状态设为false---没有正在播放
+    this.playing = false;
+    if (this.currentMode.type === 'singleLoop') {
+      this.loop();
+    } else {
+      // 执行下一首 命令即可
+      this.next(this.currentIndex + 1);
     }
   }
 }
