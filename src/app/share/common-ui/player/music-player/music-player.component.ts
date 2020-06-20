@@ -50,6 +50,8 @@ export class MusicPlayerComponent implements OnInit {
   currentMode: PlayModels; // 播放模式
   clickCount: number = 0; // 点击播放模式按钮的次数
 
+  showPanel: boolean = false; // 是否显示歌曲和歌词的面板
+
   constructor(
     // 此处监听下播放事件
     private store$: Store<AppStoreModule>,
@@ -246,12 +248,19 @@ export class MusicPlayerComponent implements OnInit {
 // 控制音量滑块的显示和隐藏
   showOrHidenVolume(event: MouseEvent) {
     event.stopPropagation();
-    this.showHide();
+    this.showHide('showVolume');
   }
 
-  showHide() {
-    this.showVolume = !this.showVolume;
-    if (this.showVolume) {
+// 显示歌曲和歌词的面板
+  showSongPanel() {
+    if (this.songList.length) {
+      this.showHide('showPanel');
+    }
+  }
+
+  showHide(type: string) {
+    this[type] = !this[type];
+    if (this.showVolume || this.showPanel) {
       // 如果音量的滑块出险了，就绑定全局的windows点击事件;
       this.bindDocumentClickListener();
     } else {
@@ -265,6 +274,7 @@ export class MusicPlayerComponent implements OnInit {
       this.winClick = fromEvent(this.doc, 'click').subscribe(() => {
         if (!this.selfClick) { // 点击播放器以外的地方
           this.showVolume = false;
+          this.showPanel = false;
           this.unBindDocumentClickListener();
         }
         this.selfClick = false;

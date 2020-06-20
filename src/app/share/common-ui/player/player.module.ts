@@ -5,12 +5,16 @@ import {MusicSlideModule} from '../music-slide/music-slide.module';
 import {FormsModule} from '@angular/forms';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {TimeFormatPipe} from '../../pipe/time-format.pipe';
+import { PlayerSongsPanelComponent } from './player-songs-panel/player-songs-panel.component';
+import { ScrollComponent } from './scroll/scroll.component';
 
 
 @NgModule({
   declarations: [
     MusicPlayerComponent,
-    TimeFormatPipe
+    TimeFormatPipe,
+    PlayerSongsPanelComponent,
+    ScrollComponent
   ],
   imports: [
     CommonModule,
