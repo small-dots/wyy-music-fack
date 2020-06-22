@@ -18,4 +18,5 @@ export const setSongList = createAction('[player] set songList', props<{ songLis
 export const setPlayModel = createAction('[player] set playModel', props<{ playModel: PlayModels }>());
 // 播放索引
 export const setCurrentIndex = createAction('[player] set currentIndex', props<{ currentIndex: number }>());
+// export const SetCurrentAction = createAction('[player] Set currentAction', props<{ currentAction: CurrentActions }>());
 

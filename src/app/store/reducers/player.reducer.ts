@@ -8,14 +8,16 @@ import {
   setPlayModel,
   setCurrentIndex
 } from '../actions/player-actions';
+
 // 播放器的类型
-export type PlayStatus = {
+export interface PlayStatus {
   playing: boolean; // 是否正在播放
   playModel: PlayModels; // 播放模式
   songList: Song[]; // 歌曲数组
   playList: Song[]; // 播放列表
   currentIndex: number; // 当前正在播放的索引
-};
+}
+
 // 播放器的类型的默认值
 export const InitPlayStatus: PlayStatus = {
   playing: false, // 是否正在播放

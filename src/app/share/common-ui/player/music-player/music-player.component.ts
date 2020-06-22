@@ -4,10 +4,12 @@ import {AppStoreModule} from '../../../../store/store.module';
 import {getCurrentIndex, getCurrentSong, getPlayList, getPlayModel, getSongList} from '../../../../store/slector/player.select';
 import {SettleSingers, Song} from '../../../../services/date-types/commenTypes';
 import {PlayModels} from './playTypes';
-import {setCurrentIndex, setPlayList, setPlayModel} from '../../../../store/actions/player-actions';
+import {setCurrentIndex, setPlayList, setPlayModel, setSongList} from '../../../../store/actions/player-actions';
 import {fromEvent, Subscription} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 import {toRandom} from '../../../utils/inArray';
+import {NzModalModule, NzModalService} from 'ng-zorro-antd';
+import {BatchActionsService} from '../../../../store/batch-actions.service';
 
 const modeTYpes: PlayModels[] = [
   {type: 'loop', label: '循环'},
@@ -56,6 +58,8 @@ export class MusicPlayerComponent implements OnInit {
     // 此处监听下播放事件
     private store$: Store<AppStoreModule>,
     @Inject(DOCUMENT) private doc: Document,
+    private nzModalServe: NzModalService,
+    private  batchActionsService: BatchActionsService
   ) {
     // @ts-ignore
     const appStore = this.store$.pipe(select('player'));
@@ -115,7 +119,7 @@ export class MusicPlayerComponent implements OnInit {
         this.updateCurrentIndex(list, this.currentSong);
         this.store$.dispatch(setPlayList({playList: list}));
       } else if (mode.type === 'singleLoop') { // 单曲循环
-
+        this.loop();
       }
     }
   }
@@ -126,6 +130,7 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   watchCurrentSong(song: Song) {
+    console.log('song', song);
     if (song) {
       this.currentSong = song;
       this.songtime = song.dt / 1000;
@@ -310,5 +315,26 @@ export class MusicPlayerComponent implements OnInit {
       // 执行下一首 命令即可
       this.next(this.currentIndex + 1);
     }
+  }
+
+  /**
+   * 删除歌曲
+   */
+  onDeleteSong(song: Song) {
+    this.batchActionsService.onDeleteSong(song);
+  }
+
+  /**
+   * 清空歌曲列表
+   */
+  onClearSong() {
+    this.nzModalServe.confirm({
+      nzTitle: '确认清空列表？',
+      nzOnOk: () => {
+        this.batchActionsService.onClearSong();
+      },
+    })
+    ;
+
   }
 }

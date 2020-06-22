@@ -23,7 +23,6 @@ export class SongListSingleComponent implements OnInit {
    * 点击播放小按钮，将歌单的id传出去
    */
   playSheetList(id: number) {
-    // evt.stopPropagation();
     this.onPlay.emit(id);
   }
 }

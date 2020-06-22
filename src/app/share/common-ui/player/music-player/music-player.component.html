@@ -61,7 +61,9 @@
       <app-player-songs-panel [songList]="songList"
                               [currentSong]="currentSong"
                               [show]="showPanel"
-                              (closePanel)="showPanel=false">
+                              (closePanel)="showPanel=false"
+                              (deleteSong)="onDeleteSong($event)"
+                              (clearSong)="onClearSong()">
       </app-player-songs-panel>
     </div>
   </div>

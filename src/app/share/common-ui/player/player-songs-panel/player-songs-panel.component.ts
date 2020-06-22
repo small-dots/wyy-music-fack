@@ -22,6 +22,9 @@ export class PlayerSongsPanelComponent implements OnInit, OnChanges {
   currentIndex: number; // 当前正在播放的歌曲的index
   @Input() show: boolean; // 是否显示 面板
   @Output() closePanel = new EventEmitter<void>();
+  @Output() deleteSong = new EventEmitter<Song>();
+  @Output() clearSong = new EventEmitter<void>();
+
   @ViewChildren(ScrollComponent) private scroll: QueryList<ScrollComponent>;
   songer: SettleSingers[];
   scrolly = 0;
@@ -34,7 +37,7 @@ export class PlayerSongsPanelComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // this.songer=this.songList.cur
+    console.log('id', this.currentSong);
   }
 
   // 监听传参的变化;
@@ -49,6 +52,9 @@ export class PlayerSongsPanelComponent implements OnInit, OnChanges {
           }
         }, 80);
       }
+    }
+    if (changes.songList) {
+      this.currentIndex = this.songList.findIndex((item) => item.id === this.currentSong.id);
     }
     // 监听当前的歌曲是否发生了变化;
     if (changes.currentSong) {
@@ -77,8 +83,6 @@ export class PlayerSongsPanelComponent implements OnInit, OnChanges {
     if (songListRef.length) {
       const currentLi = <HTMLElement> songListRef[this.currentIndex | 0]; // 当前需要滚动的li
       const currentTop = currentLi.offsetTop;
-      console.log('11', this.scrolly);
-      console.log('surrentTop', currentLi);
       // 当
       if (((currentTop - Math.abs(this.scrolly)) > currentLi.offsetHeight * 4) || (currentTop < Math.abs(this.scrolly))) {
         this.scroll.first.scrollToElement(currentLi, 300, false, false);
@@ -91,7 +95,6 @@ export class PlayerSongsPanelComponent implements OnInit, OnChanges {
    */
   private getAndUpdateLyric() {
     this.songServe.getLyric(this.currentSong.id).subscribe(res => {
-      // console.log('res', res);
       const lyric = new AnalysisLyric(res); // 解析从数据源直接获取的歌词
       this.currentLyric = lyric.lyricArr;
     });

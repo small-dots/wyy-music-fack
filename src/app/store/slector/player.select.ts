@@ -1,5 +1,5 @@
-import {PlayStatus} from '../reducers/player.reducer';
 import {createSelector} from '@ngrx/store';
+import {PlayStatus} from '../reducers/player.reducer';
 // 获取播放状态
 const selectPlayStatus = (state: PlayStatus) => state;
 
@@ -14,3 +14,4 @@ export const getPlayModel = createSelector(selectPlayStatus, (status: PlayStatus
 export const getCurrentIndex = createSelector(selectPlayStatus, (status: PlayStatus) => status.currentIndex);
 // 当前正在播放的歌曲
 export const getCurrentSong = createSelector(selectPlayStatus, ({playList, currentIndex}: PlayStatus) => playList[currentIndex]);
+

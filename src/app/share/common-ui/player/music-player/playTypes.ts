@@ -1,5 +1,7 @@
 // 定义播放器的一些类型
-export type PlayModels = {
-  type: 'loop' | 'singleLoop' | 'random';
-  label: '循环' | '单曲循环' | '随机';
-};
+
+export interface PlayModels {
+  type: 'loop' | 'random' | 'singleLoop';
+  label: '循环' | '随机' | '单曲循环';
+}
+

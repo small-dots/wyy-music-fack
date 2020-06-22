@@ -8,7 +8,9 @@ import {map} from 'rxjs/operators';
 import {SheetServiceService} from '../../../services/sheet-service.service';
 import {Store} from '@ngrx/store';
 import {AppStoreModule} from '../../../store/store.module';
+import {BatchActionsService} from '../../../store/batch-actions.service';
 import {setCurrentIndex, setPlayList, setSongList} from '../../../store/actions/player-actions';
+import {toRandom} from '../../../share/utils/inArray';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +30,8 @@ export class HomeComponent implements OnInit {
     private singerService: SingerServiceService,
     private songSheetService: SheetServiceService,
     private route: ActivatedRoute,
-    private store$: Store<AppStoreModule>
+    private store$: Store<AppStoreModule>,
+    private batchActions: BatchActionsService
   ) {
   }
 
@@ -43,10 +46,6 @@ export class HomeComponent implements OnInit {
           this.singsList = singsList;
         }
       );
-    // this.getbanners();
-    // this.getHotTags();
-    // this.getHotSongList();
-    // this.getSettleInSingers();
   }
 
   /**
@@ -107,10 +106,16 @@ export class HomeComponent implements OnInit {
   playSheetList(id: number) {
     console.log('id', id);
     this.songSheetService.playSongs(id).subscribe(list => {
+      // this.batchActions.selectPlayList({list, index: 0});
       this.store$.dispatch(setSongList({songList: list}));
-      this.store$.dispatch(setPlayList({playList: list}));
-      this.store$.dispatch(setCurrentIndex({currentIndex: 0})); // 默认播放第一首歌曲
-      console.log(list);
+      let trueIndex = 0;
+      let trueList = list.slice();
+      // if (this.playerState.playModel.type === 'random') {
+      //   trueList = toRandom(list || []);
+      //   trueIndex = trueList.findIndex(item => item.id === list[trueIndex].id);
+      // }
+      this.store$.dispatch(setPlayList({playList: trueList}));
+      this.store$.dispatch(setCurrentIndex({currentIndex: trueIndex})); // 默认播放第一首歌曲
     });
   }
 }
