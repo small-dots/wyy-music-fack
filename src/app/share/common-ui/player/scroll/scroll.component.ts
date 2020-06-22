@@ -1,4 +1,15 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef, EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import BScroll from '@better-scroll/core';
 import {timer} from 'rxjs';
 import ScrollBar from '@better-scroll/scroll-bar';
@@ -31,8 +42,11 @@ export class ScrollComponent implements OnInit, AfterViewInit, OnChanges {
 
   private bs: BScroll;
   @Input() data: any[];
+  @Output() onScrollEnd = new EventEmitter();
 
-  constructor() {
+  constructor(
+    readonly el: ElementRef
+  ) {
   }
 
   ngOnInit(): void {
@@ -58,6 +72,7 @@ export class ScrollComponent implements OnInit, AfterViewInit, OnChanges {
         easeTime: 300
       }
     });
+    this.bs.on('scrollEnd', ({y}) => this.onScrollEnd.emit(y));
   }
 
   private refresh() {
@@ -68,5 +83,10 @@ export class ScrollComponent implements OnInit, AfterViewInit, OnChanges {
     timer(50).subscribe(() => {
       this.refresh();
     });
+  }
+
+// 滚动到指定的元素位置
+  scrollToElement(...args) {
+    this.bs.scrollToElement.apply(this.bs, args);
   }
 }

@@ -64,3 +64,15 @@ export type SliderEventType = {
   end$?: Observable<Event>;
 };
 export type SliderValue = number | null;
+
+// 歌词属性
+export type Lyric = {
+  lyric: string;
+  tlyric: string;
+};
+// 最终展示的歌词形式数据
+export type LyricArr = {
+  txt: string;
+  txtCn: string;
+  time: number
+};

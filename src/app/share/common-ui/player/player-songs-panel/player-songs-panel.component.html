@@ -22,7 +22,7 @@
     <img src="//music.163.com/api/img/blur/109951163826278397" class="imgbg">
     <div class="msk"></div>
     <!--    列表面板-->
-    <app-scroll class="list-wrap" [data]="songList">
+    <app-scroll class="list-wrap" [data]="songList" (onScrollEnd)="scrolly=$event">
       <ul>
         <li *ngFor=" let song of songList;index as i" [class.current]="currentIndex===i" (click)="changeCurrent(i)">
           <i class="col arrow"></i>
@@ -43,7 +43,14 @@
         </li>
       </ul>
     </app-scroll>
+
     <!--    歌词面板-->
-    <ul></ul>
+    <app-scroll class="list-lyric">
+      <ul>
+        <li class="current" *ngFor="let item of currentLyric">
+          {{item.txt}} <br/>{{item.txtCn}}
+        </li>
+      </ul>
+    </app-scroll>
   </div>
 </div>
