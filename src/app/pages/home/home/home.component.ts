@@ -105,6 +105,7 @@ export class HomeComponent implements OnInit {
    */
   playSheetList(id: number) {
     console.log('id', id);
+    console.log('哈棍节区欧赔')
     this.songSheetService.playSongs(id).subscribe(list => {
       // this.batchActions.selectPlayList({list, index: 0});
       this.store$.dispatch(setSongList({songList: list}));
